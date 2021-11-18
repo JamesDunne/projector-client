@@ -1,6 +1,7 @@
 package main
 
 import (
+	"Projector/protocol/server"
 	"bufio"
 	"context"
 	"encoding/json"
@@ -115,12 +116,28 @@ eventLoop:
 				a.Publish()
 				//a.Send(paint.Event{External: true})
 			}
-		case e := <-events:
-			if e == nil {
+		case j := <-events:
+			if j == nil {
 				log.Println("server closed connection")
 				break eventLoop
 			}
-			log.Printf("server: %+v\n", e)
+			log.Printf("server: %+v\n", j)
+
+			if arr, ok := j.([]interface{}); ok {
+				for _, ia := range arr {
+					a, ok := ia.([]interface{})
+					if !ok {
+						continue
+					}
+
+					t := a[0].(string)
+					c := a[1].(map[string]interface{})
+
+					e := server.ToEvent(t, c)
+					_ = e
+					log.Printf("deser: %+v\n", e)
+				}
+			}
 		}
 	}
 
