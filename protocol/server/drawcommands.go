@@ -1,5 +1,7 @@
 package server
 
+import . "Projector/protocol/util"
+
 // DrawCommandsEvent @SerialName("e")
 type DrawCommandsEvent struct {
 	Event
@@ -34,13 +36,13 @@ func ToTarget(i []interface{}) DrawCommandsTarget {
 	switch t {
 	case "a":
 		return &DrawCommandsTargetOnscreen{
-			WindowId: int(c["a"].(float64)),
+			WindowId: Jint(c["a"]),
 		}
 	case "b":
 		return &DrawCommandsTargetOffscreen{
-			PVolatileImageId: int64(c["a"].(float64)),
-			Width:            int(c["b"].(float64)),
-			Height:           int(c["c"].(float64)),
+			PVolatileImageId: Jint64(c["a"]),
+			Width:            Jint(c["b"]),
+			Height:           Jint(c["c"]),
 		}
 	default:
 		panic("invalid draw command target type")

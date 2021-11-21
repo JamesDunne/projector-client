@@ -1,5 +1,7 @@
 package common
 
+import . "Projector/protocol/util"
+
 type ImageId interface {
 	imageId()
 }
@@ -33,12 +35,12 @@ func ToImageId(i []interface{}) ImageId {
 	switch t {
 	case "a":
 		return &ImageIdBuffered{
-			RasterDataBufferSize: c["a"].(int),
-			ContentHash:          c["b"].(int),
+			RasterDataBufferSize: Jint(c["a"]),
+			ContentHash:          Jint(c["b"]),
 		}
 	case "b":
 		return &ImageIdPVolatile{
-			Id: c["a"].(int64),
+			Id: Jint64(c["a"]),
 		}
 	case "c":
 		return &ImageIdUnknown{

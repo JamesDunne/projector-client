@@ -135,7 +135,7 @@ eventLoop:
 
 					e := server.ToEvent(t, c)
 					_ = e
-					log.Printf("deser: %+v\n", e)
+					log.Printf("deser: %#v\n", e)
 				}
 			}
 		}
